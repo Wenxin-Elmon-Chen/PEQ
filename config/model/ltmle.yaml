@@ -1,0 +1,16 @@
+# @package _global_
+#
+# LTMLE (R `ltmle` + `SuperLearner`) CAPO pipeline configuration
+# Used by `pipelines/train_ltmle.py`
+#
+model:
+  name: ltmle
+  method: ltmle_super
+
+  # SuperLearner CV folds used inside ltmle
+  v_folds: 3
+
+exp:
+  output_dir: './results/ltmle'
+
+

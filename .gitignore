@@ -1,0 +1,9 @@
+renv.lock
+*.h5
+**/__pycache__/
+.venv/
+logs/
+outputs/
+results/
+data/
+.vscode/

@@ -1,0 +1,27 @@
+# @package _global_
+
+# DeepACE model configuration
+model:
+  name: deepace_tuned_numz0
+  
+  # DeepACE specific hyperparameters
+  
+  # Model architecture
+  hidden_size_lstm: 32            # LSTM hidden size
+  hidden_size_body: 8            # Body network hidden size  
+  hidden_size_head: 16            # Head network hidden size
+  dropout: 0.0                    # Dropout rate
+  
+  # Training parameters
+  learning_rate: 5e-4             # Learning rate
+  batch_size: 128                 # Training batch size
+  
+  # Loss function weights
+  alpha: 0.1                      # Treatment loss weight (chosen by DeepACE authors)
+  beta: 0.05                      # Target loss weight (chosen by DeepACE authors)
+  
+  # Hyperparameter tuning configuration
+  tune_hparams: false             # Enable hyperparameter tuning
+  
+exp:
+  output_dir: './results/deepace_tuned_numz0'

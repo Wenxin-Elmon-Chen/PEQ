@@ -1,0 +1,51 @@
+# @package _global_
+dataset:
+  _target_: src.data.mimic_extract_complex.dataset.MIMICSynDatasetCollection
+  name: mimic_extract_complex_func_stepwise_0_04_05_06_1_all
+  # Binary treatment -> use multilabel (single logit + BCEWithLogits)
+  # treatment_mode param is for CRN
+  treatment_mode: multilabel
+  val_batch_size: 512
+
+  # Dimensions expected by DeepSDR / CRN adapters
+  # L is vitals (15) + Y_prev (1) = 16 in the complex semi-synthetic MIMIC-Extract simulation format.
+  dim_static: 1
+  dim_dynamic: 16
+  dim_vitals: 15
+  dim_treatments: 1
+  dim_outcomes: 1
+
+  # Semi-synthetic generation parameters
+  T: 15
+  lag: 8
+  noise_Y: 0.5
+  noise_A: 0.5
+  seed: 42
+  h5file_path: ./data/semi-syn/MIMIC_Extract/all_hourly_data.h5
+
+  # Complex DGP knobs
+  noise_Z: 0.3
+  num_z: 5
+  z_ar: 0.37
+  z_a_coef: 0.42
+  z_v_coef: 0.29
+
+  # Dataset sizes
+  num_patients:
+    train: 800
+    val: 200
+    eval: 500
+    test: 200
+
+  # Counterfactual sequences
+  cf_seq_thresholds_stepwise:
+    - [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    - [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]
+    - [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+    - [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+    - [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+  # Where to export / load Monte-Carlo ground truth CAPO
+  ground_truth_output_file: ./data/semi-syn/MIMIC_Extract/func_ground_truth_capo_complex_stepwise_0_04_05_06_1_all.json
+
+

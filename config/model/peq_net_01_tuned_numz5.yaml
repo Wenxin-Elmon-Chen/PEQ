@@ -1,0 +1,46 @@
+# @package _global_
+
+# peq_net model configuration
+model:
+  name: peq_net_01_tuned_numz5
+  
+  # Data-dependent dimensions (will be set automatically from dataset)
+  dim_static: ???                   # Will be set from dataset
+  dim_dynamic: ???                  # Will be set from dataset  
+  dim_treatments: ???               # Will be set from dataset
+  dim_outcomes: ???                 # Will be set from dataset
+  
+  # DeepSDR_policy specific hyperparameters
+  
+  # Embedding dimensions
+  dim_emb: 16                     # Main embedding dimension
+  dim_emb_time: 8                 # Time embedding dimension
+  dim_emb_type: 8                 # Type embedding dimension
+  
+  # Model architecture
+  hidden_size: 16                 # Hidden size for transformer/RNN layers
+  num_layers: 1                   # Number of transformer/RNN layers
+  nhead: 2                        # Number of attention heads
+  dropout: 0.0                    # Dropout rate
+  
+  # Training parameters
+  learning_rate: 5e-4             # Learning rate
+  batch_size: 256                 # Batch size
+  
+  # Model configuration
+  alpha: 0.05                      # Alpha parameter
+  beta: 0.0                       # Beta parameter
+  outcome_type: 'continuous'          # 'binary' or 'continuous'
+  q_head: 'shared'                # Q-function head type
+  
+  # Policy embedding configuration
+  policy_embedding_dim: 1         # Policy embedding dimension
+  policy_seq_embedding_dim: 8    # Policy sequence embedding dimension
+  use_target_network: true       # If true, use a frozen target copy for Q_a / Q_a_star targets
+  target_polyak_tau: 0.005         # If set (e.g., 0.005), do Polyak averaging update every step
+  
+  # Hyperparameter tuning configuration
+  tune_hparams: false             # Enable hyperparameter tuning
+
+exp:
+  output_dir: './results/peq_net_01_tuned_numz5'

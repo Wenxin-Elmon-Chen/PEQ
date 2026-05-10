@@ -1,0 +1,41 @@
+# @package _global_
+
+# dltmle_correct model configuration
+model:
+  name: dltmle_correct_finetune_func_numz5
+  
+  # Data-dependent dimensions (will be set automatically from dataset)
+  dim_static: ???                   # Will be set from dataset
+  dim_dynamic: ???                  # Will be set from dataset  
+  dim_treatments: ???               # Will be set from dataset
+  dim_outcomes: ???                 # Will be set from dataset
+  
+  # dltmle_correct hyperparameters
+  
+  # Embedding dimensions
+  dim_emb: 16                     # Main embedding dimension
+  dim_emb_time: 8                 # Time embedding dimension
+  dim_emb_type: 8                 # Type embedding dimension
+  
+  # Model architecture
+  hidden_size: 8                 # Hidden size for transformer/RNN layers
+  num_layers: 1                   # Number of transformer/RNN layers
+  nhead: 2                        # Number of attention heads
+  dropout: 0.0                    # Dropout rate
+  
+  # Training parameters
+  learning_rate: 5e-4             # Learning rate
+  batch_size: 128                 # Batch size
+  
+  # Model configuration
+  alpha: 0.1                      # Alpha parameter
+  beta: 0.0                       # Beta parameter
+  outcome_type: 'continuous'          # 'binary' or 'continuous'
+  q_head: 'shared'                # Q-function head type
+  sdr_transformation: false       # Use SDR transformation
+  
+  # Hyperparameter tuning configuration
+  tune_hparams: false             # Enable hyperparameter tuning
+
+exp:
+  output_dir: './results/dltmle_correct_finetune_func_numz5'
