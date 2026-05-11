@@ -268,28 +268,6 @@ def _setup_file_logging(output_dir: Path, filename: str) -> Path:
     return log_path
 
 
-def _get_y_bounds(args: DictConfig):
-    """
-    Get (y_max, y_min) for outcome normalization used by adapters.
-    """
-    # Prefer explicit bounds from config
-    y_max = args.dataset.get("y_max", None)
-    y_min = args.dataset.get("y_min", None)
-
-    # Backwards-compatible defaults for syn_when2stop
-    if y_max is None:
-        y_max = args.dataset.get("beta", None)
-    if y_min is None:
-        y_min = -1
-
-    if y_max is None:
-        raise ValueError(
-            "Could not infer y_max. Please set dataset.y_max (recommended) "
-            "or dataset.beta for syn_when2stop."
-        )
-    return float(y_max), float(y_min)
-
-
 def infer_y_bounds_from_mimic_splits(*splits, y_index: int = 0):
     """Return (y_max, y_min) from MIMIC arrays shaped (n, T, d), using Y at index `y_index`."""
     arrs = [np.asarray(a) for a in splits if a is not None]

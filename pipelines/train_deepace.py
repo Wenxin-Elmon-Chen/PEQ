@@ -22,7 +22,7 @@ import pytorch_lightning as pl
 
 # DeepACE specific imports
 from src.models.deepace import DeepACE
-from runnables.deepace_utils import DeepACEDataAdapter_When2Stop, DeepACEDataAdapter_MIMICExtract
+from runnables.deepace_utils import DeepACEDataAdapter_MIMICExtract
 
 import logging
 import hydra
@@ -42,9 +42,7 @@ def _combine_train_val(train_split, val_split, dataset_kind: str):
     Combine factual training + validation splits for final fitting.
 
     Notes:
-    - For `syn_when2stop`, the downstream adapter expects an object with `.data` (list of dicts),
-      so we can't use `torch.utils.data.ConcatDataset` which does not expose `.data`.
-    - For `mimic_extract`, splits are numpy arrays, so we concatenate along the sample axis.
+    - Splits are numpy arrays (`mimic_extract*`), so we concatenate along the sample axis.
     """
     if dataset_kind.startswith("mimic_extract"):
         import numpy as np
@@ -260,12 +258,9 @@ def main(args: DictConfig):
             deepcopy(concat_dataset), args.dataset.name, y_scaler=y_scaler
         )
         loader_for_eval = DataLoader(eval_dataset_adapted, batch_size=len(eval_dataset_adapted), shuffle=False)
-        if args.dataset.name.startswith("mimic_extract"):
-            capo_results = estimate_capo_for_one_sequence(
-                model, loader_for_eval, cf_seq, ground_truth_apo, y_scaler=y_scaler
-            )
-        elif args.dataset.name == "syn_when2stop":
-            capo_results = estimate_capo_for_one_sequence(model, loader_for_eval, cf_seq, ground_truth_apo)
+        capo_results = estimate_capo_for_one_sequence(
+            model, loader_for_eval, cf_seq, ground_truth_apo, y_scaler=y_scaler
+        )
         results[cf_seq] = capo_results
     
     # Step 4: Export results
