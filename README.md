@@ -1,4 +1,4 @@
-PEQ-Net2 (Paper Experiments)
+PEQ-Net
 ============================
 
 This repo contains runnable code and Hydra configs to reproduce the paper experiments on the
@@ -78,7 +78,7 @@ That is **10** runs total (**2** non-stepwise + **8** func-stepwise), matching t
 After ground truth exists, run experiments from the repo root (venv activated). Main bundled launcher:
 
 ```bash
-bash pipelines/pipelines2.sh
+bash pipelines/pipelines.sh
 ```
 
 ## Experiments included (overview)
