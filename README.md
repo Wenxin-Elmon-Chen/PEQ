@@ -8,7 +8,7 @@ semi-synthetic **MIMIC-Extract** generator (`mimic_extract` and `mimic_extract_c
 ## Repo layout (high-level)
 
 - `pipelines/`: experiment entrypoints, shared `pipeline_utils.py`, ground-truth scripts, and shell runners
-  `pipelines.sh`
+  `pipelines.sh`, plus result aggregation via `aggregate_results.py`
 - `config/`: Hydra configs (`config/dataset/`, `config/model/`, root `config/config.yaml`)
 - `src/`: models (`peq_net`, `dltmle_correct`, `dltmle_correct_multiQhead`, `deepace`, …) and MIMIC semi-synthetic data code
 - `runnables/`: dataset adapters and R runner `ltmle_runner_capo.R` (g-comp / LTMLE via `rpy2`)
@@ -79,6 +79,14 @@ After ground truth exists, run experiments from the repo root (venv activated). 
 
 ```bash
 bash pipelines/pipelines.sh
+```
+
+## Aggregate results
+
+After all result JSONs have been produced under `results/`, aggregate the experiment outputs:
+
+```bash
+python3 pipelines/aggregate_results.py
 ```
 
 ## Experiments included (overview)

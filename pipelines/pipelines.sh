@@ -1,23 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
-#
-# MIMIC-Extract experiment launcher (PyTorch trainers, then train_ltmle_capo / R).
-# Repo root:  N_REPEATS=20 EXP_SEED_START=1600 MAX_JOBS=4 N_THREADS=8 bash pipelines/pipelines2.sh
-# R stage:     MAX_JOBS_R=20 N_THREADS_R=1 (defaults shown)
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
 if [[ -f ".venv/bin/activate" ]]; then
-  # shellcheck disable=SC1091
   source .venv/bin/activate
 fi
 
 N_REPEATS="${N_REPEATS:-20}"
-EXP_SEED_START="${EXP_SEED_START:-1600}"
-MAX_JOBS="${MAX_JOBS:-4}"
+EXP_SEED_START="${EXP_SEED_START:-1700}"
+MAX_JOBS="${MAX_JOBS:-1}"
 N_THREADS="${N_THREADS:-8}"
-MAX_JOBS_R="${MAX_JOBS_R:-20}"
+MAX_JOBS_R="${MAX_JOBS_R:-10}"
 N_THREADS_R="${N_THREADS_R:-1}"
 LOGDIR="${LOGDIR:-logs}"
 mkdir -p "$LOGDIR"
@@ -110,19 +105,20 @@ done
 
 wait || true
 
-for i in $(seq 0 $((N_REPEATS - 1))); do
-  s=$((EXP_SEED_START + i))
-  echo "=== R (ltmle + gcomp) $((i + 1))/${N_REPEATS} seed=${s} ==="
+# uncomment the following to run the LTMLE and GCOMP experiments (using R)
+# for i in $(seq 0 $((N_REPEATS - 1))); do
+#   s=$((EXP_SEED_START + i))
+#   echo "=== R (ltmle + gcomp) $((i + 1))/${N_REPEATS} seed=${s} ==="
 
-  launch "$MAX_JOBS_R" "ltmle_mimic_extract_seed${s}" "$N_THREADS_R" \
-    pipelines/train_ltmle_capo.py +dataset=mimic_extract +model=ltmle "exp.seed=${s}"
-  launch "$MAX_JOBS_R" "ltmle_mimic_extract_complex_seed${s}" "$N_THREADS_R" \
-    pipelines/train_ltmle_capo.py +dataset=mimic_extract_complex +model=ltmle "exp.seed=${s}"
-  launch "$MAX_JOBS_R" "gcomp_mimic_extract_seed${s}" "$N_THREADS_R" \
-    pipelines/train_ltmle_capo.py +dataset=mimic_extract +model=gcomp "exp.seed=${s}"
-  launch "$MAX_JOBS_R" "gcomp_mimic_extract_complex_seed${s}" "$N_THREADS_R" \
-    pipelines/train_ltmle_capo.py +dataset=mimic_extract_complex +model=gcomp "exp.seed=${s}"
-done
+#   launch "$MAX_JOBS_R" "ltmle_mimic_extract_seed${s}" "$N_THREADS_R" \
+#     pipelines/train_ltmle_capo.py +dataset=mimic_extract +model=ltmle "exp.seed=${s}"
+#   launch "$MAX_JOBS_R" "ltmle_mimic_extract_complex_seed${s}" "$N_THREADS_R" \
+#     pipelines/train_ltmle_capo.py +dataset=mimic_extract_complex +model=ltmle "exp.seed=${s}"
+#   launch "$MAX_JOBS_R" "gcomp_mimic_extract_seed${s}" "$N_THREADS_R" \
+#     pipelines/train_ltmle_capo.py +dataset=mimic_extract +model=gcomp "exp.seed=${s}"
+#   launch "$MAX_JOBS_R" "gcomp_mimic_extract_complex_seed${s}" "$N_THREADS_R" \
+#     pipelines/train_ltmle_capo.py +dataset=mimic_extract_complex +model=gcomp "exp.seed=${s}"
+# done
 
 wait || true
 echo "All tasks finished."
