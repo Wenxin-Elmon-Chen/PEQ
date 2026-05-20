@@ -71,7 +71,7 @@ python pipelines/compute_mimic_extract_func_stepwise_ground_truth.py +dataset=mi
 python pipelines/compute_mimic_extract_func_stepwise_ground_truth.py +dataset=mimic_extract_complex_func_stepwise_0_04_05_06_1_all
 ```
 
-That is **10** runs total (**2** non-stepwise + **8** func-stepwise), matching the `config/dataset/mimic_extract*.yaml` files checked into this repo. Output paths are whatever each YAML sets in `ground_truth_output_file` (under `data/semi-syn/MIMIC_Extract/` by default).
+Output paths are whatever each YAML sets in `ground_truth_output_file` (under `data/semi-syn/MIMIC_Extract/` by default).
 
 ## Run experiments
 
@@ -104,3 +104,7 @@ python3 pipelines/aggregate_results.py
 ### Ablation Study
 - **DGP**: `mimic_extract_complex`
 - **Models / configs**: **PEQ-net**, dltmle_correct with finetuning, dltmle_correct with multi-Q-head 
+
+## Acknowledgments
+
+This repository builds on the code structure adapted from the [G-transformer](https://github.com/konstantinhess/G_transformer) and [DeepLTMLE](https://github.com/shirakawatoru/dltmle-icml-2024). We thank the authors of those projects for making their work available.
